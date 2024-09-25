@@ -12,7 +12,8 @@
     "solid-js": "^1.8.22",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/auth-ui-solid": "^0.3.8",
-    "@supabase/supabase-js": "^2.45.4"
+    "@supabase/supabase-js": "^2.45.4",
+    "mammoth": "^1.4.22"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

@@ -1,6 +1,6 @@
 # Document Summarizer App
 
-This app allows users to upload a document and get a summarized version using ChatGPT. The app provides a simple and intuitive interface for users to easily obtain summaries of their documents.
+This app allows users to upload a document and get a summarized version using ChatGPT. The app supports multiple file types, making it easy for users to summarize various documents.
 
 ## User Journey
 
@@ -19,15 +19,16 @@ This app allows users to upload a document and get a summarized version using Ch
 3. **Upload a Document**
 
    - The user is presented with the main interface.
+   - The supported file types are displayed: `.txt`, `.md`, `.docx`.
    - The user clicks on the "Choose File" button to select a document.
-   - The user selects a text document (e.g., .txt, .md) from their device.
+   - The user selects a compatible document from their device.
    - The selected file name is displayed next to the upload button.
 
 4. **Summarize the Document**
 
    - The user clicks on the "Summarize Document" button.
    - The app displays a loading indicator while processing.
-   - The app sends the document content to ChatGPT for summarization.
+   - The app processes the document content and sends it to ChatGPT for summarization.
    - Upon completion, the summarized text is displayed on the screen.
 
 5. **View the Summary**
@@ -44,15 +45,18 @@ This app allows users to upload a document and get a summarized version using Ch
 ## Features
 
 - **User Authentication**: Secure sign-in with email or social providers (Google, Facebook, Apple).
-- **Document Upload**: Allows users to upload documents from their device.
+- **Document Upload**: Supports uploading of text and Word documents.
+- **Supported File Types**: `.txt`, `.md`, `.docx`.
 - **ChatGPT Integration**: Utilizes ChatGPT to generate summaries of uploaded documents.
 - **Responsive Design**: User-friendly interface that adapts to different screen sizes.
 - **Loading Indicators**: Provides visual feedback during processing.
 - **Error Handling**: Displays error messages if issues occur during upload or summarization.
+- **Whitespace Removal**: Optimized layout to remove unnecessary whitespace below the app on desktop displays.
 
 ## Supported File Types
 
 - Plain text files (`.txt`)
 - Markdown files (`.md`)
+- Word documents (`.docx`)
 
-*Note: Currently, only plain text and markdown files are supported. Other file types may not work as expected.*
+*Note: The app currently supports summarization of plain text, markdown, and Word documents. Other file types are not supported and may result in errors.*

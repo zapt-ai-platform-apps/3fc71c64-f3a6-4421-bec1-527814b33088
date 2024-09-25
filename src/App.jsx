@@ -2,6 +2,7 @@ import { createSignal, onMount, createEffect, Show } from 'solid-js';
 import { supabase, createEvent } from './supabaseClient';
 import { Auth } from '@supabase/auth-ui-solid';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import * as mammoth from 'mammoth';
 
 function App() {
   const [user, setUser] = createSignal(null);
@@ -64,28 +65,36 @@ function App() {
     setErrorMessage('');
 
     try {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const content = reader.result;
-        const prompt = `Please provide a concise summary of the following document:\n\n${content}`;
+      const file = selectedFile();
+      const fileExtension = file.name.split('.').pop().toLowerCase();
 
-        const result = await createEvent('chatgpt_request', {
-          prompt,
-          response_type: 'text',
-        });
-
-        if (result) {
-          setSummary(result);
-        } else {
-          setErrorMessage('Failed to get summary from the AI.');
-        }
+      if (fileExtension === 'txt' || fileExtension === 'md') {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const content = reader.result;
+          await processContent(content);
+        };
+        reader.onerror = () => {
+          setErrorMessage('Error reading file.');
+          setLoading(false);
+        };
+        reader.readAsText(file);
+      } else if (fileExtension === 'docx') {
+        const arrayBuffer = await file.arrayBuffer();
+        mammoth.extractRawText({ arrayBuffer })
+          .then(async (result) => {
+            const content = result.value;
+            await processContent(content);
+          })
+          .catch((error) => {
+            console.error('Error extracting text from Word document:', error);
+            setErrorMessage('Error processing Word document.');
+            setLoading(false);
+          });
+      } else {
+        setErrorMessage('Unsupported file type.');
         setLoading(false);
-      };
-      reader.onerror = () => {
-        setErrorMessage('Error reading file.');
-        setLoading(false);
-      };
-      reader.readAsText(selectedFile());
+      }
     } catch (error) {
       console.error('Error summarizing document:', error);
       setErrorMessage('An error occurred while summarizing the document.');
@@ -93,8 +102,24 @@ function App() {
     }
   };
 
+  const processContent = async (content) => {
+    const prompt = `Please provide a concise summary of the following document:\n\n${content}`;
+
+    const result = await createEvent('chatgpt_request', {
+      prompt,
+      response_type: 'text',
+    });
+
+    if (result) {
+      setSummary(result);
+    } else {
+      setErrorMessage('Failed to get summary from the AI.');
+    }
+    setLoading(false);
+  };
+
   return (
-    <div class="h-full bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-800">
+    <div class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-800">
       <Show
         when={currentPage() === 'homePage'}
         fallback={
@@ -119,7 +144,7 @@ function App() {
           </div>
         }
       >
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-3xl mx-auto h-full">
           <div class="flex justify-between items-center mb-8">
             <h1 class="text-4xl font-bold text-purple-600">Document Summarizer</h1>
             <button
@@ -130,12 +155,13 @@ function App() {
             </button>
           </div>
 
-          <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+          <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 h-full">
             <h2 class="text-2xl font-bold mb-4 text-purple-600">Upload Document</h2>
+            <p class="mb-4 text-gray-600">Supported file types: .txt, .md, .docx</p>
             <div class="space-y-4">
               <input
                 type="file"
-                accept=".txt, .md"
+                accept=".txt, .md, .docx"
                 onChange={handleFileChange}
                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
               />
