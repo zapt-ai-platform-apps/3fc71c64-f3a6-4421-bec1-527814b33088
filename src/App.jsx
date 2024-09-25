@@ -3,6 +3,7 @@ import { supabase, createEvent } from './supabaseClient';
 import { Auth } from '@supabase/auth-ui-solid';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import * as mammoth from 'mammoth';
+import { SolidMarkdown } from 'solid-markdown';
 
 function App() {
   const [user, setUser] = createSignal(null);
@@ -188,7 +189,7 @@ function App() {
           <Show when={summary()}>
             <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
               <h2 class="text-2xl font-bold mb-4 text-purple-600">Summary</h2>
-              <p class="text-gray-700 whitespace-pre-wrap">{summary()}</p>
+              <SolidMarkdown class="prose">{summary()}</SolidMarkdown>
             </div>
           </Show>
         </div>

@@ -1,6 +1,6 @@
 # Document Summarizer App
 
-This app allows users to upload a document and get a summarized version using ChatGPT. The app supports multiple file types, making it easy for users to summarize various documents.
+This app allows users to upload a document and get a summarized version using ChatGPT. The app supports multiple file types, and now it beautifully renders the summary, especially if it's in Markdown format.
 
 ## User Journey
 
@@ -29,12 +29,13 @@ This app allows users to upload a document and get a summarized version using Ch
    - The user clicks on the "Summarize Document" button.
    - The app displays a loading indicator while processing.
    - The app processes the document content and sends it to ChatGPT for summarization.
-   - Upon completion, the summarized text is displayed on the screen.
+   - Upon completion, the summarized text is displayed on the screen, beautifully rendered if it's in Markdown.
 
 5. **View the Summary**
 
-   - The summarized text appears in a readable format.
-   - The user can scroll through the summary.
+   - The summarized text appears in a nicely formatted layout.
+   - Headings, lists, and other Markdown elements are rendered appropriately.
+   - The user can scroll through the formatted summary.
    - The user can choose to upload another document or sign out.
 
 6. **Sign Out**
@@ -48,6 +49,7 @@ This app allows users to upload a document and get a summarized version using Ch
 - **Document Upload**: Supports uploading of text and Word documents.
 - **Supported File Types**: `.txt`, `.md`, `.docx`.
 - **ChatGPT Integration**: Utilizes ChatGPT to generate summaries of uploaded documents.
+- **Markdown Rendering**: Summaries that include Markdown are rendered beautifully with proper formatting.
 - **Responsive Design**: User-friendly interface that adapts to different screen sizes.
 - **Loading Indicators**: Provides visual feedback during processing.
 - **Error Handling**: Displays error messages if issues occur during upload or summarization.
